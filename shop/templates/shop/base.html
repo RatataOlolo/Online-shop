@@ -1,0 +1,329 @@
+{% load static %}
+{% load shop_tags %}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{title}}</title>
+    <!-- Google font -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <link type="text/css" rel="stylesheet" href="{% static 'shop/css/bootstrap.min.css' %}"/>
+
+    <!-- Slick -->
+    <link type="text/css" rel="stylesheet" href="{% static 'shop/css/slick.css' %}"/>
+
+    <link type="text/css" rel="stylesheet" href="{% static 'shop/css/slick-theme.css' %}">
+
+    <link type="text/css" rel="stylesheet" href="{% static 'shop/css/nouislider.min.css' %}"/>
+
+    <!-- Font Awesome Icon -->
+    <link rel="stylesheet" href="{% static 'shop/css/font-awesome.min.css' %}"/>
+    <script src="https://kit.fontawesome.com/4dffe4967e.js" crossorigin="anonymous"></script>
+
+    <!-- Custom stlylesheet -->
+    <link type="text/css" href="{% static 'shop/css/style.css' %}" rel="stylesheet"/>
+    <link rel="shortcut icon" href="{% static 'shop/images/favicon.ico' %}" type="image/x-icon"/>
+<script type="text/javascript">
+		var user = '{{request.user}}'
+
+		function getToken(name) {
+		    var cookieValue = null;
+		    if (document.cookie && document.cookie !== '') {
+		        var cookies = document.cookie.split(';');
+		        for (var i = 0; i < cookies.length; i++) {
+		            var cookie = cookies[i].trim();
+		            // Does this cookie string begin with the name we want?
+		            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+		                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+		                break;
+		            }
+		        }
+		    }
+		    return cookieValue;
+		}
+		var csrftoken = getToken('csrftoken')
+
+		function getCookie(name) {
+		    // Split cookie string and get all individual name=value pairs in an array
+		    var cookieArr = document.cookie.split(";");
+
+		    // Loop through the array elements
+		    for(var i = 0; i < cookieArr.length; i++) {
+		        var cookiePair = cookieArr[i].split("=");
+
+		        /* Removing whitespace at the beginning of the cookie name
+		        and compare it with the given string */
+		        if(name == cookiePair[0].trim()) {
+		            // Decode the cookie value and return
+		            return decodeURIComponent(cookiePair[1]);
+		        }
+		    }
+
+		    // Return null if not found
+		    return null;
+		}
+		var cart = JSON.parse(getCookie('cart'))
+
+		if (cart == undefined){
+			cart = {}
+			console.log('Cart Created!', cart)
+			document.cookie ='cart=' + JSON.stringify(cart) + ";domain=;path=/"
+		}
+		console.log('Cart:', cart)
+
+	</script>
+</head>
+<body>
+<!-- HEADER -->
+<!-- /TOP HEADER -->
+<!-- MAIN HEADER -->
+<header>
+    <!-- TOP HEADER -->
+    <div id="top-header">
+        <div class="container">
+            <ul class="header-links pull-left">
+                <li><a href="tel:+380661723120"><i class="fa fa-phone"></i> 066-172-31-20</a></li>
+                <li><a href="mailto:admin@stickersplt.com.ua"><i class="fa fa-envelope-o"></i> admin@stickersplt.com.ua</a>
+                </li>
+                <li><a href="https://www.instagram.com/stickers_plt/" target="_blank"><i
+                        class="fa fa-brands fa-instagram"></i>stickersplt</a>
+                </li>
+                <li>
+                    <a href="https://t.me/stickersplt"><i class="fa fa-telegram"></i>stickersplt</a>
+                </li>
+                <li>
+                    <a href="https://www.facebook.com/stickersplt" target="_blank"><i class="fa fa-facebook"></i>stickersplt</a>
+                </li>
+            </ul>
+            <ul class="header-links pull-right">
+                {% if request.user.is_authenticated %}
+                <li><a href="{% url 'logout' %}"><i class="fa-solid fa-right-from-bracket"></i>Вихід <b
+                        style="color: indianred">{{ user.username }}</b></a></li>
+                {% else %}
+                <li><a href="{% url 'register' %}"><i class="fa-solid fa-address-card"></i>Реєстрація</a></li>
+                <li><a href="{% url 'login' %}"><i class="fa-solid fa-right-to-bracket"></i>Вхід</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+    <!-- /TOP HEADER -->
+
+    <!-- MAIN HEADER -->
+    <div id="header">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <!-- LOGO -->
+                <div class="col-md-2">
+                    <div class="header-logo">
+                        <a href="{% url 'home' %}" class="logo">
+                            <img src="{% static 'shop/images/logo.png' %}" alt="">
+                        </a>
+                    </div>
+                </div>
+                <!-- /LOGO -->
+
+                <!-- SEARCH BAR -->
+                <div class="col-md-7">
+                    <div class="header-search">
+                        <form action="{% url 'search_results' %}" method="get">
+                            {% csrf_token%}
+                            <input name="q" class="input" type="text" placeholder="Що шукаєте?" style="border-radius: 40px 0px 0px 40px">
+                            <button class="search-btn">Шукати</button>
+                        </form>
+                    </div>
+                </div>
+                <!-- /SEARCH BAR -->
+
+                <!-- ACCOUNT -->
+                <div class="col-md-3 clearfix">
+                    <div class="header-ctn">
+                        <!-- Wishlist -->
+                        <div>
+                            <a href="{% url 'profile' %}">
+                                <i class="fa-solid fa-user-astronaut"></i>
+                                <span>Мій акаунт</span>
+                            </a>
+                        </div>
+                        <!-- /Wishlist -->
+
+                        <!-- Cart -->
+                        <div class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                                <i class="fa fa-shopping-cart"></i>
+                                <span>Кошик</span>
+                                {% if cartItems > 0 %}
+                                <div class="qty">{{ cartItems }}</div>
+                                {% endif %}
+                            </a>
+                            <div class="cart-dropdown">
+                                <div class="cart-list">
+                                    <a href="">
+                                    </a>
+                                    {% for item in items %}
+                                    <div class="product-widget">
+                                        <div class="product-img">
+                                            <a href="{{ item.product.get_absolute_url }}">
+                                                {% if item.product.photo %}<img
+                                                    src="{{ item.product.photo.url }}" class="cart-img" alt="">{% endif %}</a>
+                                        </div>
+                                        <div class="product-body">
+                                            <h3 class="product-name"><a href="{{ item.product.get_absolute_url }}">{{ item.product.title }}</a></h3>
+                                            <h4 class="product-price"><span class="qty">{{ item.quantity }} x </span>{{ item.product.price }} ₴</h4>
+                                        </div>
+                                        <button data-product="{{item.product.id}}" data-action="delete" class="delete update-cart"><i class="fa fa-close"></i></button>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                <div class="cart-summary">
+                                    <small>Всього: {{ order.get_cart_items}} товарів</small>
+                                    <h5>Вартість: {{ order.get_cart_total}} ₴</h5>
+                                </div>
+                                <div class="cart-btns">
+                                    <a href="{% url 'cart' %}">Переглянути</a>
+                                    <a href="{% url 'checkout' %}">Замовити <i class="fa fa-arrow-circle-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Cart -->
+
+                        <!-- Menu Toogle -->
+                        <div class="menu-toggle">
+                            <a href="#">
+                                <i class="fa fa-bars"></i>
+                                <span>Menu</span>
+                            </a>
+                        </div>
+                        <!-- /Menu Toogle -->
+                    </div>
+                </div>
+                <!-- /ACCOUNT -->
+            </div>
+            <!-- row -->
+        </div>
+        <!-- container -->
+    </div>
+    <!-- /MAIN HEADER -->
+</header>
+<!-- /HEADER -->
+
+<!-- NAVIGATION -->
+<nav id="navigation">
+    <!-- container -->
+    <div class="container">
+        <!-- responsive-nav -->
+        <div id="responsive-nav">
+            <!-- NAV -->
+            <ul class="main-nav nav navbar-nav">
+                {% for m in menu %}
+                <li><a href="{% url m.url_name %}">{{m.title}}</a></li>
+                {% endfor %}
+            </ul>
+            <!-- /NAV -->
+        </div>
+        <!-- /responsive-nav -->
+    </div>
+    <!-- /container -->
+</nav>
+<!-- /NAVIGATION -->
+
+{% block content %}
+{% endblock %}
+<!-- CONTACTS -->
+<div id="newsletter" class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="newsletter">
+                    <ul class="newsletter-follow">
+                        <li>
+                            <a href="https://www.facebook.com/stickersplt" target="_blank"><i
+                                    class="fa fa-facebook"></i></a>
+                        </li>
+                        <li>
+                            <a href="https://www.instagram.com/stickers_plt/" target="_blank"><i
+                                    class="fa fa-instagram"></i></a>
+                        </li>
+                        <li>
+                            <a href="https://t.me/stickersplt"><i class="fa fa-telegram"></i></a>
+                        </li>
+                        <li>
+                            <a href="mailto:admin@stickersplt.com.ua"><i class="fa fa-envelope-o"></i></a>
+                        </li>
+                        <li>
+                            <a href="tel:+380661723120"><i class="fa fa-phone"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /CONTACTS -->
+<!-- FOOTER -->
+<footer id="footer">
+    <!-- top footer -->
+    <div class="section">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <div class="col-md-12 col-xs-12">
+                    <div class="footer">
+                        <h3 class="footer-title">Stickers_plt</h3>
+                        <p>Найкращий вибір стікерів в Україні.</p>
+                        <ul class="footer-links">
+                            <li><a href="#"><i class="fa fa-map-marker"></i>Poltava, Ukraine</a></li>
+                            <li><a href="#"><i class="fa fa-phone"></i>+38-066-172-31-20</a></li>
+                            <li><a href="#"><i class="fa fa-envelope-o"></i>admin@stickersplt.com.ua</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="clearfix visible-xs"></div>
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /top footer -->
+
+    <!-- bottom footer -->
+    <div id="bottom-footer" class="section">
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <div class="col-md-12 text-center">
+						<span class="copyright">
+							<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+							Stickers_plt &copy;<script>document.write(new Date().getFullYear());</script>
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+						</span>
+                </div>
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /bottom footer -->
+</footer>
+<!-- /FOOTER -->
+<!-- jQuery Plugins -->
+<script src="{% static 'shop/js/jquery.min.js' %}"></script>
+<script src="{% static 'shop/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'shop/js/slick.min.js' %}"></script>
+<script src="{% static 'shop/js/nouislider.min.js' %}"></script>
+<script src="{% static 'shop/js/jquery.zoom.min.js' %}"></script>
+<script src="{% static 'shop/js/cart.js' %}"></script>
+<script src="{% static 'shop/js/main.js' %}"></script>
+</body>
+
+

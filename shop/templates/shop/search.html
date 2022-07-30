@@ -1,0 +1,153 @@
+{% extends 'shop/base.html' %}
+{% load shop_tags %}
+{% block content %}
+<div class="section">
+    <div class="container">
+        <div class="row">
+            <h1>{{h1}}</h1>
+            <p>Контент сторінки</p>
+        </div>
+        <div class="row">
+            <!-- ASIDE -->
+            <div id="aside" class="col-md-3">
+                <!-- aside Widget -->
+                <div class="aside">
+                    <h3 class="aside-title">Категорії</h3>
+                    <div class="checkbox-filter">
+                        {% for c in cats %}
+                        <div class="input-checkbox">
+                            <input type="checkbox" id="{{c.id}}">
+                            <label for="{{c.id}}">
+                                <span></span>
+                                {{c.title}}
+                                <small>(666)</small>
+                            </label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <!-- /aside Widget -->
+                <!-- aside Widget -->
+                <div class="aside">
+                    <h3 class="aside-title">Price</h3>
+                    <div class="price-filter">
+                        <div id="price-slider"></div>
+                        <div class="input-number price-min">
+                            <input id="price-min" type="number">
+                            <span class="qty-up">+</span>
+                            <span class="qty-down">-</span>
+                        </div>
+                        <span>-</span>
+                        <div class="input-number price-max">
+                            <input id="price-max" type="number">
+                            <span class="qty-up">+</span>
+                            <span class="qty-down">-</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- /aside Widget -->
+
+                <!-- aside Widget -->
+                <!--                <div class="aside">-->
+                <!--                    <h3 class="aside-title">Top selling</h3>-->
+                <!--                    <div class="product-widget">-->
+                <!--                        <div class="product-img">-->
+                <!--                            <img src="./img/product01.png" alt="">-->
+                <!--                        </div>-->
+                <!--                        <div class="product-body">-->
+                <!--                            <p class="product-category">Category</p>-->
+                <!--                            <h3 class="product-name"><a href="#">product name goes here</a></h3>-->
+                <!--                            <h4 class="product-price">$980.00-->
+                <!--                                <del class="product-old-price">$990.00</del>-->
+                <!--                            </h4>-->
+                <!--                        </div>-->
+                <!--                    </div>-->
+
+                <!--                    <div class="product-widget">-->
+                <!--                        <div class="product-img">-->
+                <!--                            <img src="./img/product02.png" alt="">-->
+                <!--                        </div>-->
+                <!--                        <div class="product-body">-->
+                <!--                            <p class="product-category">Category</p>-->
+                <!--                            <h3 class="product-name"><a href="#">product name goes here</a></h3>-->
+                <!--                            <h4 class="product-price">$980.00-->
+                <!--                                <del class="product-old-price">$990.00</del>-->
+                <!--                            </h4>-->
+                <!--                        </div>-->
+                <!--                    </div>-->
+
+                <!--                    <div class="product-widget">-->
+                <!--                        <div class="product-img">-->
+                <!--                            <img src="./img/product03.png" alt="">-->
+                <!--                        </div>-->
+                <!--                        <div class="product-body">-->
+                <!--                            <p class="product-category">Category</p>-->
+                <!--                            <h3 class="product-name"><a href="#">product name goes here</a></h3>-->
+                <!--                            <h4 class="product-price">$980.00-->
+                <!--                                <del class="product-old-price">$990.00</del>-->
+                <!--                            </h4>-->
+                <!--                        </div>-->
+                <!--                    </div>-->
+                <!--                </div>-->
+                <!-- /aside Widget -->
+            </div>
+            <!-- /ASIDE -->
+
+            <!-- STORE -->
+            <div id="store" class="col-md-9">
+
+                <!-- store products -->
+                <div class="row">
+                    <!-- product -->
+                    {% for p in products %}
+                    <a href="{{ p.get_absolute_url }}">
+                        <div class="col-md-4 col-xs-6">
+                            <div class="product">
+                                <div class="product-img">
+                                    {% if p.photo %}
+                                    <img class="product-img" src="{{ p.photo.url }}">
+                                    {% endif %}
+                                </div>
+                                <div class="product-body">
+                                    <p class="product-category">
+                                        <a href="{{ p.cat.get_absolute_url }}"> {{p.cat}} </a>
+                                    </p>
+                                    <h3 class="product-name"><a href="{{ p.get_absolute_url }}"> {{p.title}} </a></h3>
+                                    <h4 class="product-price">{{ p.price }} </h4>
+                                </div>
+                                <div class="add-to-cart">
+                                    <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    {% endfor %}
+                    <!-- /product -->
+
+                    <!--                    <div class="clearfix visible-sm visible-xs"></div>-->
+                    <!--                    <div class="clearfix visible-lg visible-md"></div>-->
+                    <!--                    <div class="clearfix visible-sm visible-xs"></div>-->
+                    <!--                    <div class="clearfix visible-lg visible-md visible-sm visible-xs"></div>-->
+                    <!--                    <div class="clearfix visible-sm visible-xs"></div>-->
+                </div>
+                <!-- /store products -->
+
+                <!-- store bottom filter -->
+                <div class="store-filter clearfix">
+                    <span class="store-qty">Showing 20-100 products</span>
+                    <ul class="store-pagination">
+                        <li class="active">1</li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+                    </ul>
+                </div>
+                <!-- /store bottom filter -->
+            </div>
+            <!-- /STORE -->
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,130 @@
+{% extends 'shop/base.html' %}
+{% load shop_tags %}
+{% block content %}
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <!-- Product main img -->
+            <div class="col-md-5 col-md-push-2">
+                <div id="product-main-img">
+                    <div class="product-preview">
+                        {% if product.photo %}
+                        <img src="{{ product.photo.url }}" alt="">
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <!-- /Product main img -->
+
+            <!-- Product thumb imgs -->
+            <div class="col-md-2  col-md-pull-5">
+                <div id="product-imgs">
+                    <div class="product-preview">
+                        <img src="./img/product01.png" alt="">
+                    </div>
+
+                    <div class="product-preview">
+                        <img src="./img/product03.png" alt="">
+                    </div>
+
+                    <div class="product-preview">
+                        <img src="./img/product06.png" alt="">
+                    </div>
+
+                    <div class="product-preview">
+                        <img src="./img/product08.png" alt="">
+                    </div>
+                </div>
+            </div>
+            <!-- /Product thumb imgs -->
+
+            <!-- Product details -->
+            <div class="col-md-5">
+                <div class="product-details">
+                    <h2 class="product-name">{{ product.title }}</h2>
+                    <div>
+                        <h3 class="product-price">{{ product.price }}
+<!--                            <del class="product-old-price">$990.00</del>-->
+                        </h3>
+                        <span class="product-available">{% if product.in_stock == True %}
+                            В наявності
+                            {% else %}
+                            <span style="color: red"> Немає в наявності</span>
+                            {% endif %}</span>
+                    </div>
+                    <p>{{p.content}}</p>
+<!--                    <div class="product-options">-->
+<!--                        <label>-->
+<!--                            Розмір-->
+<!--                            <select class="input-select">-->
+<!--                                <option value="0">X</option>-->
+<!--                            </select>-->
+<!--                        </label>-->
+<!--                        <label>-->
+<!--                            Колір-->
+<!--                            <select class="input-select">-->
+<!--                                <option value="0">Red</option>-->
+<!--                            </select>-->
+<!--                        </label>-->
+<!--                    </div>-->
+
+                    <div class="add-to-cart">
+                        {% if product.in_stock == True %}
+                        <button  data-product="{{product.id}}"  data-action="add" class="add-to-cart-btn update-cart">
+                            <i class="fa fa-shopping-cart"></i>В кошик
+                        </button>
+                        {% endif %}
+
+                    </div>
+
+                    <ul class="product-links">
+                        <li>Розділ:</li>
+                        <a href="{{ product.cat.get_absolute_url }}">{{ product.cat }}</a>
+                    </ul>
+
+                </div>
+            </div>
+            <!-- /Product details -->
+
+            <!-- Product tab -->
+            <div class="col-md-12">
+                <div id="product-tab">
+                    <!-- product tab nav -->
+                    <ul class="tab-nav">
+                        <li class="active"><a data-toggle="tab" href="#tab1">Опис товару</a></li>
+                        <li><a data-toggle="tab" href="#tab2">Details</a></li>
+                    </ul>
+                    <!-- /product tab nav -->
+                    <!-- product tab content -->
+                    <div class="tab-content">
+                        <!-- tab1  -->
+                        <div id="tab1" class="tab-pane fade in active">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p>{{ product.description }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /tab1  -->
+                        <!-- tab2  -->
+                        <div id="tab2" class="tab-pane fade in">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p>Якийсь ще опис</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /tab2  -->
+                    </div>
+                    <!-- /product tab content  -->
+                </div>
+            </div>
+            <!-- /product tab -->
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+{% endblock %}

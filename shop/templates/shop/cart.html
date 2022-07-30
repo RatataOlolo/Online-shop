@@ -1,0 +1,55 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+{% block content %}
+<div class="section">
+    <div class="container">
+        <div class="row">
+            <h1>{{h1}}</h1>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+
+            <table class=table>
+                <tr>
+                    <th></th>
+                    <th>Фото</th>
+                    <th>Товар</th>
+                    <th>Ціна</th>
+                    <th>Кількість</th>
+                    <th>+/-</th>
+                    <th>Всього</th>
+                </tr>
+                {% for item in items %}
+                <tr>
+                    <td><button data-product="{{item.product.id}}" data-action="delete" class="delete update-cart"><i class="fa fa-close"></i></button></td>
+                    <td><a href="{{ item.product.get_absolute_url }}">{% if item.product.photo %}<img
+                            src="{{ item.product.photo.url }}" class="cart-img" alt="">{% endif %}</a>
+                    </td>
+                    <td><a href="{{ item.product.get_absolute_url }}">{{ item.product.title }}</a></td>
+                    <td>{{ item.product.price }} ₴</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>
+                        <span data-product="{{item.product.id}}" data-action="add" class="qty-up update-cart">+</span>
+                        {{ item.quantity }}
+                        <span data-product="{{item.product.id}}" data-action="remove" class="qty-down update-cart">-</span>
+                    </td>
+
+                    <td>{{ item.get_total }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            <table class=table>
+                <tr>
+                    <td>Всього товарів: {{ order.get_cart_items}}</td>
+                    <td></td>
+                    <td></td>
+                    <td>Вартість: {{ order.get_cart_total}} ₴</td>
+                    <td><a href="{% url 'checkout' %}" class="add-to-cart-btn">Замовити<i
+                            class="fa fa-arrow-circle-right"></i></a></td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+{% endblock %}

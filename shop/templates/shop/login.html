@@ -1,0 +1,26 @@
+{% extends 'shop/base.html' %}
+{% block content %}
+<div class="section">
+    <div class="container">
+        <div class="row">
+            <h1>{{h1}}</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <p>Увійдіть або зареєструйтесь:</p>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="form-error">{{ form.non_field_errors }}</div>
+                    {% for f in form %}
+                    <div class="form-group">
+                        <label for="{{ f.id_for_label }}">{{ f.label }}</label>
+                        <p class="order-form">{{ f }}</p>
+                    </div>
+                    {% endfor %}
+                    <button class="primary-btn order-submit" type="submit">Увійти</button>
+                    <a class="primary-btn" href="{% url 'register' %}">Реєстрація</a>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
