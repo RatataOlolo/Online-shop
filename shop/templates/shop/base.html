@@ -47,22 +47,17 @@
 		var csrftoken = getToken('csrftoken')
 
 		function getCookie(name) {
-		    // Split cookie string and get all individual name=value pairs in an array
 		    var cookieArr = document.cookie.split(";");
 
 		    // Loop through the array elements
 		    for(var i = 0; i < cookieArr.length; i++) {
 		        var cookiePair = cookieArr[i].split("=");
 
-		        /* Removing whitespace at the beginning of the cookie name
-		        and compare it with the given string */
 		        if(name == cookiePair[0].trim()) {
-		            // Decode the cookie value and return
 		            return decodeURIComponent(cookiePair[1]);
 		        }
 		    }
 
-		    // Return null if not found
 		    return null;
 		}
 		var cart = JSON.parse(getCookie('cart'))
@@ -299,19 +294,14 @@
     <!-- bottom footer -->
     <div id="bottom-footer" class="section">
         <div class="container">
-            <!-- row -->
             <div class="row">
                 <div class="col-md-12 text-center">
 						<span class="copyright">
-							<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 							Stickers_plt &copy;<script>document.write(new Date().getFullYear());</script>
-                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 						</span>
                 </div>
             </div>
-            <!-- /row -->
         </div>
-        <!-- /container -->
     </div>
     <!-- /bottom footer -->
 </footer>
