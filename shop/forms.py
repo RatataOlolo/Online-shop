@@ -21,30 +21,7 @@ class LoginUserForm(AuthenticationForm):
     username = forms.CharField(label='Логін', widget=forms.TextInput() )
     password = forms.CharField(label='Пароль', widget=forms.PasswordInput() )
 
-# class OrderForm(forms.Form):
-#     NP = 'Нова пошта'
-#     UP = 'Укрпошта'
-#     S = 'Самовивіз, м.Полтава'
-#     PP = 'Передплата на карту ПриватБанк'
-#     NlP = 'Готівка при отриманні (тiльки для замовлень вiд 100 грн.)'
-#     delivery_type = [
-#         (NP, 'Нова пошта'),
-#         (UP, 'Укрпошта'),
-#     ]
-#     payment_type = [
-#         (PP, 'Передплата на карту ПриватБанк'),
-#         (NlP, 'Готівка при отриманні (тiльки для замовлень вiд 100 грн.)'),
-#     ]
-#     firstname = forms.CharField(max_length=128, required=True, label='Ім\'я')
-#     lastname = forms.CharField(max_length=128 ,required=True, label='Прізвище')
-#     delivery = forms.ChoiceField(choices=delivery_type, label='Оберіть спосіб доставки')
-#     post_department = forms.IntegerField(label='Номер відділення')
-#     city = forms.CharField(required=True, label='Населений пункт')
-#     region = forms.CharField(required=False, label='Область (необов\'язково)')
-#     # phoneNumber = forms.RegexField(regex=r'\0(\d{9})', max_length=10, label='Контактний номер в форматі 0ххххххххх')
-#     phoneNumber = forms.IntegerField(label='Контактний номер в форматі 0ххххххххх')
-#     comment = forms.CharField(max_length=300, required=False, label='Коментар до замовлення')
-#     payment = forms.ChoiceField(choices=payment_type, label='Спосіб оплати')
+
 
 class OrderForm(forms.ModelForm):
     class Meta:
