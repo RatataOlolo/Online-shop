@@ -8,13 +8,12 @@ from django.contrib.sessions.models import Session
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', 'time_create', 'img_show', 'is_published', 'cat',
-                    'in_stock')  # fields that will be show in admin panel
-    list_display_links = ('id', 'title')  # fields that will be links
-    search_fields = ('title', 'description')  # fields that will be searched
-    list_editable = ('is_published', 'in_stock')  # fields that will be editable in admin panel
-    list_filter = ('is_published', 'time_create', 'in_stock')  # for filter by this fields in admin panel
-    prepopulated_fields = {'slug': ('title',)}  # for autofilling url-slug
-
+                    'in_stock')  
+    list_display_links = ('id', 'title') 
+    search_fields = ('title', 'description') 
+    list_editable = ('is_published', 'in_stock')  
+    list_filter = ('is_published', 'time_create', 'in_stock')  
+    prepopulated_fields = {'slug': ('title',)} 
     def img_show(self, obj):
         if obj.photo:
             return mark_safe("<img src = '{}' width=60 />".format(obj.photo.url))
@@ -27,7 +26,7 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', 'time_create')
     list_display_links = ('id', 'title')
     search_fields = ('title', 'content')
-    prepopulated_fields = {'slug': ('title',)}  # for autofilling slug-url
+    prepopulated_fields = {'slug': ('title',)} 
 
 
 class OrderAdmin(admin.ModelAdmin):
@@ -47,8 +46,8 @@ class ShippingAddressAdmin(admin.ModelAdmin):
     list_display_links = ('id', 'customer')
     search_fields = ('city', 'customer', 'date_added')
 
-admin.site.register(Product, ProductAdmin)  # two classes for register class with fields
-admin.site.register(Category, CategoryAdmin) #register models. It will be show in admin panel
+admin.site.register(Product, ProductAdmin) 
+admin.site.register(Category, CategoryAdmin) 
 admin.site.register(Order, OrderAdmin)
 admin.site.register(OrderItem, OrderItemAdmin)
 admin.site.register(ShippingAddress, ShippingAddressAdmin)
