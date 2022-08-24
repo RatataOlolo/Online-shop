@@ -26,108 +26,8 @@
                         <div class="form-error">{{ f.errors }}</div>
                         {% endfor %}
                     </form>
-                <!--                        <form action="" method="post" id="ratata">-->
-                <!--                            {% csrf_token %}-->
-                <!--                            <div class="form-group">-->
-                <!--                                <input class="input" type="text" name="firstname"-->
-                <!--                                       placeholder="{{form.firstname.label}}">-->
-                <!--                            </div>-->
-                <!--                            <div class="form-group">-->
-                <!--                                <input class="input" type="text" name="lastname" placeholder="{{form.lastname.label}}">-->
-                <!--                            </div>-->
-                <!--                            <div class="form-group">-->
-                <!--                                <select class="input-select">-->
-                <!--                                    <option value="0">Оберіть доставку</option>-->
-                <!--                                    {% for v in form.delivery.value %}-->
-                <!--                                    <option value="1" label="{{v}}"></option>-->
-                <!--                                    {% endfor %}-->
-                <!--                                </select>-->
-                <!--                            </div>-->
-                <!--                            <div class="form-group">-->
-                <!--                                <input class="input" type="text" name="post_department" placeholder="{{form.post_department.label}}">-->
-                <!--                            </div>-->
-                <!--                            <div class="form-group">-->
-                <!--                                <input class="input" type="text" name="city" placeholder="{{form.city.label}}">-->
-                <!--                            </div>-->
-                <!--                            <div class="form-group">-->
-                <!--                                <input class="input" type="text" name="region" placeholder="{{form.region.label}}">-->
-                <!--                            </div>-->
-                <!--                            <div class="form-group">-->
-                <!--                                <input class="input" type="tel" name="phoneNumber" placeholder="{{form.phoneNumber.label}}">-->
-                <!--                            </div>-->
-                <!--                            <div class="form-group">-->
-                <!--                                <input class="input" type="tel" name="comment" placeholder="{{form.comment.label}}">-->
-                <!--                            </div>-->
-                <!--                        </form>-->
-                <div class="form-group">
-                    <div class="input-checkbox">
-                        <input type="checkbox" id="create-account">
-                        <label for="create-account">
-                            <span></span>
-                            Create Account?
-                        </label>
-                        <div class="caption">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                incididunt.</p>
-                            <input class="input" type="password" name="password"
-                                   placeholder="Enter Your Password">
-                        </div>
-                    </div>
                 </div>
-                <!-- /Billing Details -->
-                <!--                    &lt;!&ndash; Billing Details &ndash;&gt;-->
-                <!--                    <div class="billing-details">-->
-                <!--                        <div class="section-title">-->
-                <!--                            <h3 class="title">Дані для доставки</h3>-->
-                <!--                        </div>-->
-                <!--                        <div class="form-group">-->
-                <!--                            <form action="" method="post" id="ratata">-->
-                <!--                                {% csrf_token %}-->
-                <!--                                {% for f in form %}-->
-                <!--                                <input class="input" placeholder="{{f}}">-->
-                <!--                                {% endfor %}-->
-                <!--                                -->
-                <!--                            </form>-->
-                <!--                            &lt;!&ndash;                            {% url 'order' %}&ndash;&gt;-->
-                <!--                            <form action="" method="post" id="ratata">-->
-                <!--                                {% csrf_token %}-->
-                <!--                                {% for f in form %}-->
-                <!--                                <p class="input"><label for="{{f.id_for_label}}">{{f.label}}:</label></p>-->
-                <!--                                {% endfor %}-->
-                <!--                            </form>-->
-                <!--                        </div>-->
-                <!--                        <div class="form-group">-->
-                <!--                            <input class="input" type="text" name="lastname" form="{{form.lastname.id_for_label}}"-->
-                <!--                                   placeholder="{{form.lastname.label}}">-->
-                <!--                        </div>-->
-                <!--                        <div class="form-group">-->
-                <!--                            <select class="input-select">-->
-                <!--                                <option name="delivery" label="{{form.delivery}}"></option>-->
-                <!--                            </select>-->
-                <!--                        </div>-->
-                <!--                        <div class="form-group">-->
-                <!--                            <input class="input" type="text" name="post_department"-->
-                <!--                                   form="{{form.post_department.id_for_label}}"-->
-                <!--                                   placeholder="{{form.post_department.label}}">-->
-                <!--                        </div>-->
-                <!--                        <div class="form-group">-->
-                <!--                            <input class="input" type="text" name="city" form="{{form.city.id_for_label}}"-->
-                <!--                                   placeholder="{{form.city.label}}">-->
-                <!--                        </div>-->
-                <!--                        <div class="form-group">-->
-                <!--                            <input class="input" type="text" name="region" form="{{form.region.id_for_label}}"-->
-                <!--                                   placeholder="{{form.region.label}}">-->
-                <!--                        </div>-->
-                <!--                        <div class="form-group">-->
-                <!--                            <input class="input" type="tel" name="phoneNumber"-->
-                <!--                                   form="{{form.phoneNumber.id_for_label}}"-->
-                <!--                                   placeholder="{{form.phoneNumber.label}}">-->
-                <!--                        </div>-->
-                <!--                        <div class="form-group">-->
-                <!--                            <textarea class="input" maxlength="300" name="comment" rows="5"-->
-                <!--                                      form="{{form.comment.id_for_label}}"-->
-                <!--                                      placeholder="{{form.comment.label}}"></textarea>-->
-                <!--                        </div>-->
+               
             </div>
             <!-- /Billing Details -->
         </div>
@@ -158,47 +58,6 @@
                     <div><strong>Всього</strong></div>
                     <div><strong class="order-total">$2940.00</strong></div>
                 </div>
-            </div>
-            <div class="payment-method">
-                <div class="input-radio">
-                    <input type="radio" name="{{form.payment}}" id="{{form.payment.id_for_label}}">
-                    <label for="payment-1">
-                        {{form.payment.label}}
-                    </label>
-                    <div class="caption">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                            incididunt ut labore et dolore magna aliqua.</p>
-                    </div>
-                </div>
-                <div class="input-radio">
-                    <input type="radio" name="payment" id="payment-2">
-                    <label for="payment-2">
-                        <span></span>
-                        Cheque Payment
-                    </label>
-                    <div class="caption">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                            incididunt ut labore et dolore magna aliqua.</p>
-                    </div>
-                </div>
-                <div class="input-radio">
-                    <input type="radio" name="payment" id="payment-3">
-                    <label for="payment-3">
-                        <span></span>
-                        Paypal System
-                    </label>
-                    <div class="caption">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                            incididunt ut labore et dolore magna aliqua.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="input-checkbox">
-                <input type="checkbox" id="terms">
-                <label for="terms">
-                    <span></span>
-                    I've read and accept the <a href="#">terms & conditions</a>
-                </label>
             </div>
             <button class="primary-btn order-submit" type="submit" form="ratata">
                 Замовити
