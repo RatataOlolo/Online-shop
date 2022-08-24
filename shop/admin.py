@@ -3,8 +3,6 @@ from .models import *
 from django.utils.safestring import mark_safe
 from django.contrib.sessions.models import Session
 
-# Register your models here.
-
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', 'time_create', 'img_show', 'is_published', 'cat',
