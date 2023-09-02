@@ -1,17 +1,19 @@
 from django.contrib import admin
-from .models import *
 from django.utils.safestring import mark_safe
 from django.contrib.sessions.models import Session
+
+from shop.models import Product, Category, Order, OrderItem, ShippingAddress
 
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', 'time_create', 'img_show', 'is_published', 'cat',
-                    'in_stock')  
-    list_display_links = ('id', 'title') 
-    search_fields = ('title', 'description') 
-    list_editable = ('is_published', 'in_stock')  
-    list_filter = ('is_published', 'time_create', 'in_stock')  
-    prepopulated_fields = {'slug': ('title',)} 
+                    'in_stock')
+    list_display_links = ('id', 'title')
+    search_fields = ('title', 'description')
+    list_editable = ('is_published', 'in_stock')
+    list_filter = ('is_published', 'time_create', 'in_stock')
+    prepopulated_fields = {'slug': ('title',)}
+
     def img_show(self, obj):
         if obj.photo:
             return mark_safe("<img src = '{}' width=60 />".format(obj.photo.url))
@@ -24,7 +26,7 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', 'time_create')
     list_display_links = ('id', 'title')
     search_fields = ('title', 'content')
-    prepopulated_fields = {'slug': ('title',)} 
+    prepopulated_fields = {'slug': ('title',)}
 
 
 class OrderAdmin(admin.ModelAdmin):
@@ -44,8 +46,9 @@ class ShippingAddressAdmin(admin.ModelAdmin):
     list_display_links = ('id', 'customer')
     search_fields = ('city', 'customer', 'date_added')
 
-admin.site.register(Product, ProductAdmin) 
-admin.site.register(Category, CategoryAdmin) 
+
+admin.site.register(Product, ProductAdmin)
+admin.site.register(Category, CategoryAdmin)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(OrderItem, OrderItemAdmin)
 admin.site.register(ShippingAddress, ShippingAddressAdmin)

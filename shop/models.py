@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
 
+
 class Product(models.Model):
     title = models.CharField(max_length=255, verbose_name="Назва")
     slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name="URL")
@@ -46,6 +47,7 @@ class Category(models.Model):
         ordering = ['id', 'time_create',
                     'title']
 
+
 class Order(models.Model):
     customer = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     date_orderd = models.DateTimeField(auto_now_add=True)
@@ -79,6 +81,7 @@ class Order(models.Model):
         verbose_name_plural = 'Замовлення'
         ordering = ['date_orderd']
 
+
 class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
@@ -94,6 +97,7 @@ class OrderItem(models.Model):
         verbose_name = 'Товар в замовленні'
         verbose_name_plural = 'Товари в замовленні'
         ordering = ['date_added']
+
 
 class ShippingAddress(models.Model):
     NP = 'Нова пошта'

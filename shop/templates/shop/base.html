@@ -64,10 +64,8 @@
 
 		if (cart == undefined){
 			cart = {}
-			console.log('Cart Created!', cart)
 			document.cookie ='cart=' + JSON.stringify(cart) + ";domain=;path=/"
 		}
-		console.log('Cart:', cart)
 
 	</script>
 </head>
@@ -139,10 +137,12 @@
                     <div class="header-ctn">
                         <!-- Wishlist -->
                         <div>
-                            <a href="{% url 'profile' %}">
+                            {% if request.user.id %}
+                            <a href="{% url 'profile' request.user.id %}">
                                 <i class="fa-solid fa-user-astronaut"></i>
                                 <span>Мій акаунт</span>
                             </a>
+                            {% endif %}
                         </div>
                         <!-- /Wishlist -->
 

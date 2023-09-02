@@ -15,10 +15,9 @@ Including another URLconf
 """
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
 
+from shop.views import pageNotFound
 from stickersplt import settings
-from shop.views import *
 from django.urls import path, include
 
 urlpatterns = [

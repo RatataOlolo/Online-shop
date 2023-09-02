@@ -1,7 +1,8 @@
-from django.urls import path, re_path
+from django.urls import path
 
-from .views import *
-from . import views
+from shop.views import (ShopHome, contacts, delivery, LoginUser, logout_user, RegisterUser, ShowProduct,
+                        ShopCategory, car_print, stickers_print, cart, checkout, updateItem, SearchResultsView,
+                        orderresult, UserProfileView)
 
 urlpatterns = [
     path('', ShopHome.as_view(), name='home'),
@@ -9,7 +10,7 @@ urlpatterns = [
     path('delivery/', delivery, name='delivery'),
     path('login/', LoginUser.as_view(), name='login'),
     path('logout/', logout_user, name='logout'),
-    path('profile/', user_profile, name='profile'),
+    path('profile/<int:pk>', UserProfileView.as_view(), name='profile'),
     path('register/', RegisterUser.as_view(), name='register'),
     path('product/<slug:product_slug>/', ShowProduct.as_view(), name='product'),
     path('category/<slug:cat_slug>/', ShopCategory.as_view(), name='category'),

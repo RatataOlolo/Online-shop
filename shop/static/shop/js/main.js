@@ -138,10 +138,8 @@
 
 	function updatePriceSlider(elem , value) {
 		if ( elem.hasClass('price-min') ) {
-			console.log('min')
 			priceSlider.noUiSlider.set([value, null]);
 		} else if ( elem.hasClass('price-max')) {
-			console.log('max')
 			priceSlider.noUiSlider.set([null, value]);
 		}
 	}

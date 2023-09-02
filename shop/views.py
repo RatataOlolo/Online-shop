@@ -1,28 +1,25 @@
 import json
 
 from django.contrib.auth import logout, login
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
-from django.core.paginator import Paginator
-from django.http import HttpResponse, HttpResponseNotFound, Http404
-from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponseNotFound
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.messages import success
 
-from .forms import *
-from .models import *
-from .utils import *
 from django.http import JsonResponse
-import datetime
-from .utils import cookieCart, cartData, guestOrder
+
+from .forms import RegisterUserForm, LoginUserForm, OrderForm
+from .models import Product, Order, OrderItem
+from .utils import cookieCart, cartData, DataMixin, menu
 
 
-class ShopHome(DataMixin, ListView):  # homepage
+class ShopHome(DataMixin, ListView):
     model = Product
     template_name = 'shop/index.html'
     context_object_name = 'products'
+    paginate_by = 12
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -33,11 +30,11 @@ class ShopHome(DataMixin, ListView):  # homepage
         return Product.objects.filter(is_published=True)
 
 
-def pageNotFound(request, exception):  # pageNotFound
+def pageNotFound(request, exception):
     return HttpResponseNotFound('<h1>Сторінку не знайдено</h1>')
 
 
-class ShowProduct(DataMixin, DetailView):  # singleproduct
+class ShowProduct(DataMixin, DetailView):
     model = Product
     template_name = 'shop/product.html'
     slug_url_kwarg = 'product_slug'
@@ -49,7 +46,7 @@ class ShowProduct(DataMixin, DetailView):  # singleproduct
         return dict(list(context.items()) + list(c_def.items()))
 
 
-class ShopCategory(DataMixin, ListView):  # products in category
+class ShopCategory(DataMixin, ListView):
     model = Product
     template_name = 'shop/index.html'
     context_object_name = 'products'
@@ -81,7 +78,7 @@ class SearchResultsView(DataMixin, ListView):
         return object_list
 
 
-class RegisterUser(DataMixin, CreateView):  # user's register
+class RegisterUser(DataMixin, CreateView):
     form_class = RegisterUserForm
     template_name = 'shop/register.html'
     success_url = reverse_lazy('login')
@@ -97,7 +94,7 @@ class RegisterUser(DataMixin, CreateView):  # user's register
         return redirect('home')
 
 
-class LoginUser(DataMixin, LoginView):  # user's login
+class LoginUser(DataMixin, LoginView):
     form_class = LoginUserForm
     template_name = 'shop/login.html'
 
@@ -110,37 +107,35 @@ class LoginUser(DataMixin, LoginView):  # user's login
         return reverse_lazy('home')
 
 
-def logout_user(request):  # user's logout
+def logout_user(request):
     logout(request)
     return redirect('login')
 
-def user_profile(request):
-    if request.user.is_authenticated:
-        customer = request.user
-        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+
+class UserProfileView(DetailView):
+    model = User
+    template_name = 'shop/profile.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        customer = self.request.user
+        order, _ = Order.objects.get_or_create(customer=customer, complete=False)
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
-    else:
-        cookieData = cookieCart(request)
-        cartItems = cookieData['cartItems']
-        order = cookieData['order']
-        items = cookieData['items']
 
-    context = {
-        'menu': menu,
-        'title': 'Профіль',
-        'h1': 'Профіль',
-        'items': items,
-        'order': order,
-        'cartItems': cartItems,
-    }
-    if not request.user.is_authenticated:
-        return redirect('login')
-    else:
-        return render(request, 'shop/profile.html', context)
+        context.update({
+            'menu': menu,
+            'title': 'Профіль',
+            'h1': 'Профіль',
+            'items': items,
+            'order': order,
+            'cartItems': cartItems,
+        })
+        return context
 
 
-def contacts(request):  # contact's page
+def contacts(request):
     if request.user.is_authenticated:
         customer = request.user
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
@@ -164,7 +159,7 @@ def contacts(request):  # contact's page
     return render(request, 'shop/contacts.html', context)
 
 
-def delivery(request):  # delivery and payment
+def delivery(request):
     if request.user.is_authenticated:
         customer = request.user
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
@@ -187,7 +182,7 @@ def delivery(request):  # delivery and payment
     return render(request, 'shop/delivery.html', context)
 
 
-def stickers_print(request):  # stickers ind.print
+def stickers_print(request):
     if request.user.is_authenticated:
         customer = request.user
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
@@ -210,7 +205,7 @@ def stickers_print(request):  # stickers ind.print
     return render(request, 'shop/stickers_print.html', context)
 
 
-def car_print(request):  # car_print
+def car_print(request):
     if request.user.is_authenticated:
         customer = request.user
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
@@ -251,6 +246,7 @@ def cart(request):
     }
     return render(request, 'shop/cart.html', context)
 
+
 def orderresult(request):
     if request.user.is_authenticated:
         customer = request.user
@@ -274,24 +270,21 @@ def orderresult(request):
 
     return render(request, 'shop/order_result.html', context)
 
-def checkout(request):  # checkout
+
+def checkout(request):
     data = cartData(request)
-    cartItems = data['cartItems'] #count of goods in cart
-    ordernum = data['order'] #order id
-    items = data['items'] #items in cart
+    ordernum = data['order']
+    items = data['items']
     if request.user.is_authenticated:
         customer = request.user
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         initial_dict = {
-            "customer" : customer,
-            "order" : ordernum,
+            "customer": customer,
+            "order": ordernum,
         }
         form = OrderForm(request.POST or None, initial=initial_dict)
         if request.method == 'POST' or request.method == 'None':
-            print('1')
-            # import pdb; pdb.set_trace()
             if form.is_valid():
-                print('2')
                 for item in items:
                     product = Product.objects.get(id=item.product_id)
                     orderItem = OrderItem.objects.create(
@@ -300,9 +293,7 @@ def checkout(request):  # checkout
                         quantity=(item.quantity if item.quantity > 0 else -1 * item.quantity),
                     )
                     orderItem.save()
-                    print('3')
                 form.save()
-                print('form saved')
         order.complete = True
         order.save()
         return redirect('order_result')
@@ -310,26 +301,10 @@ def checkout(request):  # checkout
         return redirect('login')
 
 
-    context = {
-        'menu': menu,
-        'title': 'Оформлення замовлення',
-        'h1': 'Оформлення замовлення',
-        'form': form,
-        'items': items,
-        'order': ordernum,
-        'cartItems': cartItems,
-    }
-    return render(request, 'shop/checkout.html', context)
-
-
-# FOR AUTH.USER!
 def updateItem(request):
     data = json.loads(request.body)
     productId = data["productId"]
     action = data["action"]
-
-    print("Action:", action)
-    print("productId:", productId)
 
     customer = request.user
     product = Product.objects.get(id=productId)
@@ -357,4 +332,3 @@ def updateItem(request):
         orderItem.delete()
 
     return JsonResponse('Item was added', safe=False)
-
